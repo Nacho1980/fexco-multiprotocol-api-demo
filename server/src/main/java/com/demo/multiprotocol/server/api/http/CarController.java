@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class CarController {
 	 *
 	 * @return the list
 	 */
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/cars")
 	public List<Car> getAllCars() {
 		return carService.getAllCars();
@@ -46,6 +48,7 @@ public class CarController {
 	 * @return the cars by id
 	 * @throws ResourceNotFoundException the resource not found exception
 	 */
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/cars/{id}")
 	public ResponseEntity<Car> getCarById(@PathVariable(value = "id") Long carId) throws ResourceNotFoundException {
 		Car car = carService.getCarById(carId);
@@ -58,8 +61,9 @@ public class CarController {
 	 * @param car the car
 	 * @return the car
 	 */
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/new")
-	public ResponseEntity<Car> createCar(@Valid @RequestBody Car car) {
+	public ResponseEntity<Car> createCar(@RequestBody Car car) {
 		Car newCar = carService.createCar(car);
 		publisher.sendMessage("New supercar in stock! Our " + car.getLocation() + " dealer has received a new "
 				+ car.getBrand() + " " + car.getModel() + " in color " + car.getColor() + " with a price of "
@@ -75,6 +79,7 @@ public class CarController {
 	 * @return the response entity
 	 * @throws ResourceNotFoundException the resource not found exception
 	 */
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PutMapping("/cars/{id}")
 	public ResponseEntity<Car> updateCar(@PathVariable(value = "id") Long carId, @Valid @RequestBody Car carDetails)
 			throws ResourceNotFoundException {
@@ -89,9 +94,11 @@ public class CarController {
 	 * @return the map
 	 * @throws Exception the exception
 	 */
+	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping("/cars/{id}")
 	public ResponseEntity<HttpStatus> deleteCar(@PathVariable(value = "id") Long carId) throws Exception {
 		carService.deleteCar(carId);
 		return new ResponseEntity<HttpStatus>(HttpStatus.ACCEPTED);
 	}
+
 }

@@ -52,12 +52,10 @@ public class CarControllerTestsIT {
 
 	@BeforeAll
 	void initDatabase() {
-		Car rolls = carService
-				.createCar(new Car("Rolls Royce", "Phantom", "White", 2019, 210000, "Madrid - Las Rozas"));
+		Car rolls = carService.createCar(new Car("Rolls Royce", "Phantom", "White", 210000, "Madrid - Las Rozas"));
 		Car porsche = carService
-				.createCar(new Car("Porsche", "Panamera", "Black", 2020, 120000, "Sevilla - Carretera amarilla"));
-		Car lambo = carService
-				.createCar(new Car("Lamborghini", "Aventador", "Yellow", 2020, 340000, "Barcelona - Diagonal"));
+				.createCar(new Car("Porsche", "Panamera", "Black", 120000, "Sevilla - Carretera amarilla"));
+		Car lambo = carService.createCar(new Car("Lamborghini", "Aventador", "Yellow", 340000, "Barcelona - Diagonal"));
 		dbCars.add(rolls);
 		dbCars.add(porsche);
 		dbCars.add(lambo);
@@ -92,7 +90,7 @@ public class CarControllerTestsIT {
 	@Order(3)
 	public void testCreateCar() throws Exception {
 		// Given
-		Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 2019, 290000, "Madrid - Las Rozas");
+		Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 290000, "Madrid - Las Rozas");
 
 		// When - Then
 		mvc.perform(MockMvcRequestBuilders.post("/api/v1/new").content(asJsonString(ferrari))
@@ -110,7 +108,7 @@ public class CarControllerTestsIT {
 	@Order(4)
 	public void testUpdateCar() throws Exception {
 		// Given
-		Car bugatti = new Car("Bugatti", "Chiron", "Grey", 2019, 1490000, "Madrid - Las Rozas");
+		Car bugatti = new Car("Bugatti", "Chiron", "Grey", 1490000, "Madrid - Las Rozas");
 
 		// When
 		long carId = dbCars.get(0).getId();

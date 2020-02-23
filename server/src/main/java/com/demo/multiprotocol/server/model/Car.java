@@ -34,8 +34,6 @@ public class Car implements Serializable {
 	private String model;
 	@Column(name = "color", nullable = false)
 	private String color;
-	@Column(name = "year", nullable = false)
-	private int year;
 	@Column(name = "price", nullable = false)
 	private double price;
 	@Column(name = "location", nullable = false)
@@ -53,11 +51,10 @@ public class Car implements Serializable {
 		// Default constructor for JPA
 	}
 
-	public Car(String brand, String model, String color, int year, double price, String location) {
+	public Car(String brand, String model, String color, double price, String location) {
 		this.brand = brand;
 		this.model = model;
 		this.color = color;
-		this.year = year;
 		this.price = price;
 		this.location = location;
 	}
@@ -134,20 +131,6 @@ public class Car implements Serializable {
 	 */
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	/**
-	 * @return the year
-	 */
-	public int getYear() {
-		return year;
-	}
-
-	/**
-	 * @param year the year to set
-	 */
-	public void setYear(int year) {
-		this.year = year;
 	}
 
 	/**

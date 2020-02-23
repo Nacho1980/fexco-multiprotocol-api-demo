@@ -69,7 +69,6 @@ public class CarServiceImpl implements CarService {
 		car.setLocation(carDetails.getLocation());
 		car.setModel(carDetails.getModel());
 		car.setPrice(carDetails.getPrice());
-		car.setYear(carDetails.getYear());
 		car.setColor(carDetails.getColor());
 		car.setUpdatedAt(new Date());
 		final Car updatedCar = carRepository.save(car);

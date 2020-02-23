@@ -1,7 +1,5 @@
 package com.demo.multiprotocol.server.api.amqp;
 
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -34,11 +32,11 @@ public class Runner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		logger.info("Sending message...");
-		System.out.println("Sending message...");
-		rabbitTemplate.convertAndSend(producer.getTopicExchangeName(), producer.getRoutingKey(),
-				"Hello from RabbitMQ!");
-		receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
+//		logger.info("Sending message...");
+//		System.out.println("Sending message...");
+//		rabbitTemplate.convertAndSend(producer.getTopicExchangeName(), producer.getRoutingKey(),
+//				"Hello from RabbitMQ!");
+//		receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
 	}
 
 }

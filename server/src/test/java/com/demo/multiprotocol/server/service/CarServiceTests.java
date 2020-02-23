@@ -31,9 +31,9 @@ public class CarServiceTests {
 
 	@BeforeEach
 	void setUp() {
-		carRepo.save(new Car("Rolls Royce", "Phantom", "White", 2019, 210000, "Madrid - Finest cars Las Rozas"));
-		carRepo.save(new Car("Porsche", "Panamera", "Black", 2020, 120000, "Sevilla - Deluxe motor Palmera"));
-		carRepo.save(new Car("Lamborghini", "Aventador", "Yellow", 2020, 340000, "Barcelona - VIP cars Diagonal"));
+		carRepo.save(new Car("Rolls Royce", "Phantom", "White", 210000, "Madrid - Finest cars Las Rozas"));
+		carRepo.save(new Car("Porsche", "Panamera", "Black", 120000, "Sevilla - Deluxe motor Palmera"));
+		carRepo.save(new Car("Lamborghini", "Aventador", "Yellow", 340000, "Barcelona - VIP cars Diagonal"));
 	}
 
 	@AfterEach
@@ -73,7 +73,7 @@ public class CarServiceTests {
 	@Order(3)
 	public void testCreateCar() {
 		// Given
-		Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 2019, 290000, "Madrid - Las Rozas");
+		Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 290000, "Madrid - Las Rozas");
 		// When
 		Car ferrariStored = carService.createCar(ferrari);
 		// Then
@@ -85,7 +85,7 @@ public class CarServiceTests {
 	@Order(4)
 	public void testUpdateCar() {
 		// Given
-		Car ferrari = new Car("Ferrari", "812 Superfast", "Yellow", 2019, 290000, "Madrid - Las Rozas");
+		Car ferrari = new Car("Ferrari", "812 Superfast", "Yellow", 290000, "Madrid - Las Rozas");
 		try {
 			// When
 			Car updatedCar = carService.updateCar(3l, ferrari);
