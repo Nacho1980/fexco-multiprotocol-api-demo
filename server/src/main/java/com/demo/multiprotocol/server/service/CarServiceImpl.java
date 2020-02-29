@@ -49,7 +49,7 @@ public class CarServiceImpl implements CarService {
 	 * @param car the car
 	 * @return the car
 	 */
-	public Car createCar(Car car) {
+	public Car createCar(Car car) throws IllegalArgumentException {
 		Car newCar = carRepository.save(car);
 		return newCar;
 	}

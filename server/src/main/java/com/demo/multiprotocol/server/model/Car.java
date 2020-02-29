@@ -17,13 +17,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/**
+ * The car entity that will be stored in the database
+ * 
+ * @author Ignacio Santos
+ *
+ */
 @Entity
 @Table(name = "cars")
 @EntityListeners(AuditingEntityListener.class)
 public class Car implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,6 +56,15 @@ public class Car implements Serializable {
 	}
 
 	public Car(String brand, String model, String color, double price, String location) {
+		this.brand = brand;
+		this.model = model;
+		this.color = color;
+		this.price = price;
+		this.location = location;
+	}
+
+	public Car(long id, String brand, String model, String color, double price, String location) {
+		this.id = id;
 		this.brand = brand;
 		this.model = model;
 		this.color = color;

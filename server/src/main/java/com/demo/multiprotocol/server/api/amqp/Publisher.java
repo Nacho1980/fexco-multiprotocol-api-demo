@@ -2,114 +2,49 @@ package com.demo.multiprotocol.server.api.amqp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+/**
+ * This publisher will use the default exchange to write the messages to the
+ * specified queues
+ * 
+ * @author Ignacio Santos
+ *
+ */
+@Service
 public class Publisher {
 	Logger logger = LoggerFactory.getLogger(Publisher.class);
 
-	private final RabbitTemplate rabbitTemplate;
+	@Value("${amqp.queue.new.car}")
+	private String queue;
 
-	@Value("${amqp.routing.key}")
-	private String routingKey;
-
-	@Value("${amqp.topic.exchange.name}")
-	private String topicExchangeName;
-
-	@Value("${amqp.queue.name}")
-	private String queueName;
-
-	/**
-	 * Create AMQP queue
-	 * 
-	 * @return
-	 */
-	@Bean
-	Queue queue() {
-		return new Queue(queueName, false);
-	}
-
-	/**
-	 * Create topic exchange
-	 * 
-	 * @return
-	 */
-	@Bean
-	TopicExchange exchange() {
-		return new TopicExchange(topicExchangeName);
-	}
-
-	/**
-	 * Bind the queue and the exchange using the routing key
-	 * 
-	 * @param queue
-	 * @param exchange
-	 * @return
-	 */
-	@Bean
-	Binding binding(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(routingKey);
-	}
+	@Autowired
+	private AmqpTemplate rabbitTemplate;
 
 	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory);
-		container.setQueueNames(queueName);
-		container.setMessageListener(listenerAdapter);
-		return container;
+	public Queue myQueue() {
+		boolean durable = true;
+		return new Queue(queue, durable);
 	}
 
-	@Bean
-	MessageListenerAdapter listenerAdapter(Receiver receiver) {
-		return new MessageListenerAdapter(receiver, "receiveMessage");
-	}
-
-	public Publisher(// Receiver receiver,
-			RabbitTemplate rabbitTemplate) {
-		// this.receiver = receiver;
-		this.rabbitTemplate = rabbitTemplate;
-	}
-
-	/**
-	 * Send the message using the provided topic exchange and routing key
-	 * 
-	 * @param message
-	 */
 	public void sendMessage(String message) {
-		logger.info("Sending message: " + message);
-		rabbitTemplate.convertAndSend(topicExchangeName, routingKey, message);
+		logger.info("Sending message '" + message + "' to queue " + queue);
+		try {
+			rabbitTemplate.convertAndSend(queue, message);
+		} catch (AmqpException e) {
+			logger.error("Error sending message '" + message + "' to queue " + queue, e);
+		}
 	}
 
-	/**
-	 * @return the routingKey
-	 */
-	public String getRoutingKey() {
-		return routingKey;
-	}
+//	public void sendMessage(String exchange, String routingKey, String message) {
+//		rabbitTemplate.convertAndSend(exchange, routingKey, message);
+//		logger.info("Sending message: " + message);
+//	}
 
-	/**
-	 * @return the topicExchangeName
-	 */
-	public String getTopicExchangeName() {
-		return topicExchangeName;
-	}
-
-	/**
-	 * @return the queueName
-	 */
-	public String getQueueName() {
-		return queueName;
-	}
 }

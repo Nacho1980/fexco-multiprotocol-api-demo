@@ -1,0 +1,80 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.coloredBackground {
+  background-color: #c0c0c0;
+}
+
+.coloredFont {
+  color: #c0c0c0;
+  font-weight: bold;
+}
+
+.coloredTextCard {
+  font-weight: bold;
+  color: #c79f87;
+}
+
+.backgroundButton {
+  background-color: #87afc7;
+}
+
+.App-header {
+  background-color: #000000; /* #282c34; */
+  min-height: 45vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #c0c0c0;
+}
+
+.App-body {
+  background-color: #000000;
+  /*  background-image: linear-gradient(black, #282c34); */
+  /*justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;*/
+  color: white;
+}
+
+.errorInput {
+  border-style: solid;
+  border-color: red;
+}
+
+.blackText {
+  color: black;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.restrict-size {
+  width: 600px;
+  height: 260px;
+}

@@ -2,6 +2,8 @@ package com.demo.multiprotocol.server.exception;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,9 +18,10 @@ import org.springframework.web.context.request.WebRequest;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	/**
-	 * Resource not found exception response entity.
+	 * Resource not found exception handler.
 	 *
 	 * @param ex      the ex
 	 * @param request the request
@@ -28,11 +31,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
 		ErrorResponse errorDetails = new ErrorResponse(new Date(), HttpStatus.NOT_FOUND.toString(), ex.getMessage(),
 				request.getDescription(false));
+		logger.error("Resource was not found when accessing the API", ex);
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 
 	/**
-	 * GlobalException handler response entity.
+	 * GlobalException handler.
 	 *
 	 * @param ex      the ex
 	 * @param request the request
@@ -42,6 +46,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
 		ErrorResponse errorDetails = new ErrorResponse(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.toString(),
 				ex.getMessage(), request.getDescription(false));
+		logger.error("An error occurred when accessing the API", ex);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

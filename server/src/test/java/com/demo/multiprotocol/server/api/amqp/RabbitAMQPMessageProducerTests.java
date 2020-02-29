@@ -1,34 +1,49 @@
 package com.demo.multiprotocol.server.api.amqp;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.AmqpConnectException;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 
+/**
+ * AMQP messaging tests (using a test queue)
+ * 
+ * @author Ignacio Santos
+ *
+ */
 @SpringBootTest
 public class RabbitAMQPMessageProducerTests {
 
-	Logger logger = LoggerFactory.getLogger(RabbitAMQPMessageProducerTests.class);
+	@Value("${amqp.queue.test}")
+	private String queue;
 
 	@Autowired
-	private Publisher publisher;
+	private TestListener listener;
 
 	@Autowired
-	private Receiver receiver;
+	private AmqpTemplate rabbitTemplate;
+
+	@Bean
+	public Queue myQueue() {
+		boolean durable = true;
+		return new Queue(queue, durable);
+	}
 
 	@Test
 	public void test() throws Exception {
 		try {
-			publisher.sendMessage("Test message " + new Date().toString());
-			receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
-		} catch (AmqpConnectException e) {
-			logger.error("Error running tests", e);
+			String message = "test";
+			rabbitTemplate.convertAndSend(queue, message);
+			Thread.sleep(5000); // wait 5 seconds
+			Assertions.assertEquals(message, listener.getMessageReceived());
+		} catch (Exception e) {
+			fail("AMQP test failed", e);
 		}
 	}
-
 }

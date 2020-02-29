@@ -16,7 +16,7 @@ public interface CarService {
 
 	public Car getCarById(Long id) throws ResourceNotFoundException;
 
-	public Car createCar(Car car);
+	public Car createCar(Car car) throws IllegalArgumentException;
 
 	public Car updateCar(Long carId, Car carDetails) throws ResourceNotFoundException;
 

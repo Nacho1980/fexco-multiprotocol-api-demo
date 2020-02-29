@@ -17,7 +17,11 @@ import com.demo.multiprotocol.server.model.Car;
 import com.demo.multiprotocol.server.repository.CarRepository;
 
 /**
- * Unit test for the service
+ * Unit test for the service methods. Mocks were not used for this test, we
+ * could have used them but in a real world application we would have a physical
+ * DB and we would be using H2 for testing purposes (see pom.xml -> tag 'scope'
+ * for the database) So we decided to show 2 different ways of testing in the
+ * controller and service
  * 
  * @author Ignacio Santos
  *
@@ -64,7 +68,7 @@ public class CarServiceTests {
 			Assert.isTrue(rollsRoyce.getBrand().equals("Rolls Royce"), "Incorrect brand");
 			Assert.isTrue(rollsRoyce.getModel().equals("Phantom"), "Incorrect model");
 		} catch (Exception e) {
-			fail("Get car should not have thrown any exception");
+			fail("Get car by id test failed", e);
 		}
 	}
 
@@ -72,12 +76,16 @@ public class CarServiceTests {
 	@DisplayName("Test create car")
 	@Order(3)
 	public void testCreateCar() {
-		// Given
-		Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 290000, "Madrid - Las Rozas");
-		// When
-		Car ferrariStored = carService.createCar(ferrari);
-		// Then
-		Assert.isTrue(ferrariStored.getId() > 0, "Car not saved");
+		try {
+			// Given
+			Car ferrari = new Car("Ferrari", "812 Superfast", "Red", 290000, "Madrid - Las Rozas");
+			// When
+			Car ferrariStored = carService.createCar(ferrari);
+			// Then
+			Assert.isTrue(ferrariStored.getId() > 0, "Car not saved");
+		} catch (Exception e) {
+			fail("Create car test failed", e);
+		}
 	}
 
 	@Test
@@ -92,7 +100,7 @@ public class CarServiceTests {
 			// Then
 			Assert.isTrue(updatedCar.getColor().equals("Yellow"), "Car not updated");
 		} catch (Exception e) {
-			fail("Update car should not have thrown any exception");
+			fail("Update car test failed", e);
 		}
 	}
 
@@ -111,7 +119,7 @@ public class CarServiceTests {
 			Assert.isTrue(allCars.stream().filter(car -> car.getBrand().equals("Lamborghini")).count() == 0,
 					"Car not deleted");
 		} catch (Exception e) {
-			fail("Delete car should not have thrown any exception");
+			fail("Delete car test failed", e);
 		}
 	}
 }

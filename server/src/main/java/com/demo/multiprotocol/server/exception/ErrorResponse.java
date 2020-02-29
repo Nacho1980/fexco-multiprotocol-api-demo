@@ -3,7 +3,8 @@ package com.demo.multiprotocol.server.exception;
 import java.util.Date;
 
 /**
- * The type Error response.
+ * The Error response to return in the CRUD services in case anything goes
+ * wrong.
  *
  * @author Ignacio Santos
  */
