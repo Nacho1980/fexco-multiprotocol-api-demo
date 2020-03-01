@@ -63,7 +63,7 @@ class App extends Component {
           that.setState({ error: "Lost connection to backend" });
           console.log("Connection error");
         });
-        if (response.status === 202) {
+        if (response.status === 200) {
           this.getAllCars();
         }
       })();
