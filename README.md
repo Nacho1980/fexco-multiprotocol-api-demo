@@ -2,7 +2,7 @@
 Tech demo for Fexco with a multi protocol API which makes use of Java REST services and AMQP messaging. The application is a simple online car dealer with a frontend developed with React + Bootstrap + NodeJS and a backend developed with Java and Springboot. Every time a new car is added to the virtual dealer, the application sends a message from the Java backend to the RabbitMQ broker which is listened by a script running in NodeJS.
 
 # Structure:
-**/client **
+**/client**
 contains the source code for a client implemented in React with Webpack + Babel + Bootstrap + a NodeJS backend. It includes the UI and also a NodeJS script to listen for the AMQP messages in the backend.
 
 **/server**
